@@ -17,7 +17,6 @@ type ChatConfig struct {
 	MaxToken int
 }
 
-
 type Prompt struct {
 	Text string
 	Image string
@@ -51,7 +50,6 @@ type Client struct {
 }
 
 
-
 type Provider string
 const (
 	Gemini Provider = "gemini"
@@ -59,6 +57,7 @@ const (
 	OpenAi Provider = "openai"
 	Groq Provider = "groq"
 )
+
 
 func New(provider Provider, api_key string) Agent {
 	switch provider {
