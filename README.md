@@ -25,20 +25,20 @@ A unified, lightweight Go interface that wraps multiple Large Language Model (LL
 ## Architecture Overview
 ```mermaid
 graph TD
-    App["Application Code"] -->|1. agent.New(Provider, APIKey)| Factory["agent.New() Factory (interface.go)"]
-    Factory -->|Returns unified| AgentInterface["Agent Interface"]
+    App["Application Code"] -->|"1. agent.New(Provider, APIKey)"| Factory["agent.New Factory"]
+    Factory -->|"Returns Agent"| AgentInterface["Agent Interface"]
     
-    App -->|2. Invoke(Prompt, History, Config)| AgentInterface
+    App -->|"2. Invoke(Prompt, History, Config)"| AgentInterface
     
     subgraph Adaptors
-        AgentInterface -->|OpenAi / Groq| OpenAIAdaptor["OpenaiAdaptor (openai.go)"]
-        AgentInterface -->|Anthropic| AnthropicAdaptor["AnthropicAdaptor (anthropic.go)"]
-        AgentInterface -->|Gemini| GeminiAdaptor["GeminiAdaptor (gemini.go)"]
+        AgentInterface -->|"OpenAi / Groq"| OpenAIAdaptor["OpenaiAdaptor"]
+        AgentInterface -->|"Anthropic"| AnthropicAdaptor["AnthropicAdaptor"]
+        AgentInterface -->|"Gemini"| GeminiAdaptor["GeminiAdaptor"]
     end
     
-    OpenAIAdaptor -->|openai-go/v3 SDK| OpenAIAPI["OpenAI / Groq API"]
-    AnthropicAdaptor -->|anthropic-sdk-go SDK| AnthropicAPI["Anthropic API"]
-    GeminiAdaptor -->|genai SDK| GeminiAPI["Gemini API"]
+    OpenAIAdaptor -->|"openai-go/v3 SDK"| OpenAIAPI["OpenAI / Groq API"]
+    AnthropicAdaptor -->|"anthropic-sdk-go SDK"| AnthropicAPI["Anthropic API"]
+    GeminiAdaptor -->|"genai SDK"| GeminiAPI["Gemini API"]
 ```
 
 The system separates client code from LLM SDK complexities using a factory and adapter architecture. When invoking an agent, the prompt context and history are mapped to the respective provider's layout, and the response is packed into a unified return structure.
